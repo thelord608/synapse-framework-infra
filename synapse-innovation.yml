@@ -1,0 +1,67 @@
+trigger:
+  branches:
+   include:
+     - master
+
+variables:
+  - name: PoolImage
+    value: 'windows-2019'
+  - name: BuildJobDisplayName
+    value: 'Synapse Innovation Build'
+
+ #deployment variables
+    #DEVTEST Environment
+  - name: StageName_DevTest
+    value: 'DevTest'
+  - name: StageDisplayName_DevTest
+    value: 'DevTest'
+  - name: EnvironmentName_DevTest
+    value: 'Synapse-DevTest'
+  - name: VariableGroup_DevTest
+    value: 'Synapse Vars DevTest'
+
+ #Production variables
+    #Prod Environment
+  - name: StageName_Prod
+    value: 'Prod'
+  - name: StageDisplayName_Prod
+    value: 'Prod'
+  - name: EnvironmentName_Prod
+    value: 'Synapse-Prod'
+  - name: VariableGroup_Prod
+    value: 'Synapse Vars Prod'
+
+
+stages:
+- stage: Build
+  jobs:
+  - template: YamlTemplates/jobs/build/infra-build.yml
+    parameters:
+      PoolImage: $(PoolImage)
+      BuildJobDisplayName: '${{variables.BuildJobDisplayName}}'
+
+- stage: ${{variables.StageName_DevTest}}
+  displayName: ${{variables.StageDisplayName_DevTest}}
+  condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/DevTestRelease'))
+  dependsOn: Build
+  variables:
+    - group: ${{variables.VariableGroup_DevTest}}
+  jobs:
+  - template: YamlTemplates/jobs/release/infra-release.yml
+    parameters:
+      StageName: ${{variables.StageName_DevTest}}
+      EnvironmentName: ${{variables.EnvironmentName_DevTest}}
+      PoolImage: $(PoolImage)
+
+- stage: ${{variables.StageName_Prod}}
+  displayName: ${{variables.StageDisplayName_Prod}}
+  condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/master'))
+  dependsOn: Build
+  variables:
+    - group: ${{variables.VariableGroup_Prod}}
+  jobs:
+  - template: YamlTemplates/jobs/release/infra-release.yml
+    parameters:
+      StageName: ${{variables.StageName_Prod}}
+      EnvironmentName: ${{variables.EnvironmentName_Prod}}
+      PoolImage: $(PoolImage)
