@@ -1,0 +1,91 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.1",
+    "parameters": {
+        "metadataSqlServerName": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string",
+            "defaultvalue": "east us 2"
+        },        
+        "metadataAdministratorLogin": {
+            "type": "string"
+        },
+        "metadataAdministratorLoginPassword": {
+            "type": "secureString",
+            "defaultValue": ""
+        },
+        "metadataDatabaseName": {
+            "type": "string"
+        },
+        "metadataDbSkuName": {
+           "defaultvalue": "S0",
+           "type": "string"
+        },
+        "metadataDbSkuTier": {
+           "defaultvalue": "Standard",
+           "type": "string"
+        },
+        "metadataDbCollation": {
+            "type": "string"
+        }
+    },    
+    "resources": [
+        {
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2015-05-01-preview",
+            "name": "[parameters('metadataSqlServerName')]",
+            "location": "[parameters('location')]",            
+            "identity": "[json('null')]",
+            "properties": {
+                "administratorLogin": "[parameters('metadataAdministratorLogin')]",
+                "administratorLoginPassword": "[parameters('metadataAdministratorLoginPassword')]",
+                "version": "12.0"
+            },
+          "resources": [
+            {
+              "type": "Microsoft.Sql/servers/securityAlertPolicies",
+              "apiVersion": "2017-03-01-preview",
+              "name": "[concat(parameters('metadataSqlServerName'), '/Default')]",
+              "properties": {
+                "state": "Enabled",
+                "emailAccountAdmins": false
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('metadataSqlServerName'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Sql/servers/databases",
+              "apiVersion": "2018-06-01-preview",
+              "name": "[concat(parameters('metadataSqlServerName'), '/', parameters('metadataDatabaseName'))]",
+              "location": "[parameters('location')]",
+              "sku": {
+                "name": "[parameters('metadataDbSkuName')]",
+                "tier": "[parameters('metadataDbSkuTier')]"
+              },
+              "properties": {
+                "collation": "[parameters('metadataDbCollation')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('metadataSqlServerName'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Sql/servers/firewallRules",
+              "apiVersion": "2015-05-01-preview",
+              "name": "[concat(parameters('metadataSqlServerName'), '/AllowAllWindowsAzureIps')]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('metadataSqlServerName'))]"
+              ],
+              "properties": {
+                "startIpAddress": "0.0.0.0",
+                "endIpAddress": "0.0.0.0"
+              }
+            }
+          ]
+        }        
+    ],
+    "outputs": {}
+}

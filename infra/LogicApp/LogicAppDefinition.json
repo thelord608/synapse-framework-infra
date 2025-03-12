@@ -1,0 +1,74 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "actions": {
+      "HTTP": {
+        "inputs": {
+          "headers": {
+            "status code": "200"
+          },
+          "method": "POST",
+          "uri": "@{triggerBody().callBackUri}"
+        },
+        "runAfter": {
+          "HTTP_2": [
+            "Succeeded"
+          ]
+        },
+        "type": "Http"
+      },
+      "HTTP_2": {
+        "inputs": {
+          "body": {
+            "text": "<table style=\"width:100%\"><tr><td>Synapse Integrate Notification for:</td><td><strong>@{triggerBody()?['DataFactoryName']}</strong></td></tr><tr><td>Pipeline name:</td><td><strong>@{triggerBody()?['PipelineName']}</strong></td></tr><tr><td>Status:</td><td><strong> @{triggerBody()?['Subject']} </strong></td></tr><tr><td>Error Message:</td><td><strong> @{triggerBody()?['ErrorMessage']}</strong></td></tr><tr><td><strong> <a href=\"@{triggerBody()?['MonitorURL']}\">Click here to Monitor</a> </strong></td></tr></table>",
+            "title": "Incoming Alert Message "
+          },
+          "method": "POST",
+          "uri": "@parameters('NotificationWebhookURI')"
+        },
+        "runAfter": {},
+        "type": "Http"
+      }
+    },
+    "contentVersion": "1.0.0.0",
+    "outputs": {},
+    "parameters": {
+      "NotificationWebhookURI": {
+        "defaultValue": "",
+        "type": "securestring"
+      }
+    },
+    "triggers": {
+      "manual": {
+        "inputs": {
+          "method": "POST",
+          "schema": {
+            "properties": {
+              "DataFactoryName": {
+                "type": "string"
+              },
+              "ErrorMessage": {
+                "type": "string"
+              },
+              "PipelineName": {
+                "type": "string"
+              },
+              "Subject": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "kind": "Http",
+        "type": "Request"
+      }
+    }
+  },
+  "parameters": {
+    "NotificationWebhookURI": {
+      "defaultValue": "",
+      "type": "securestring"
+    }
+  }
+}

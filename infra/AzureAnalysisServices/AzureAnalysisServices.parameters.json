@@ -1,0 +1,30 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "ServerName": {
+            "value": "brianas1"
+        },
+        "Location": {
+           "value": "East US 2"
+        },
+        "Administrators": {
+            "value": [
+                "brian.minisi@neudesic.com",
+                "Joe.Kastner@neudesic.com"
+            ]
+        },
+        "Tags": {
+            "value": {
+                "BrianTag1": "Tag1Val",
+                "Dept": "Finance"
+            }
+        },
+        "SkuName": {
+           "value": "S0"
+        },
+        "SkuTier": {
+           "value": "Standard"
+        }
+    }
+}

@@ -1,0 +1,45 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "eastus"
+        },
+        "workspaceName": {
+            "value": "ml-workspace-name-01"
+        },
+        "resourceGroupName": {
+            "value": "Kornferry"
+        },
+        "tagValues": {
+            "value": {
+                "CostCenter": "CKV",
+                "Location": "EastUS"
+            }
+        },
+        "keyVaultName": {
+            "value": "mlwskeyvault001"
+        },
+        "storageAccountName": {
+            "value": "mlstorageaccountname"
+        },
+        "applicationInsightsName": {
+            "value": "mlappinname01"
+        },
+        "storageAccountType": {
+            "value": "Standard_RAGRS"
+        },
+        "keyVaultLocation": {
+            "value": "eastus"
+        },
+        "keyVaultResourceGroupName": {
+            "value": "Kornferry"
+        },
+        "containerRegistryName": {
+            "value": "mlcontregname01"
+        },
+        "containerRegistrySku": {
+            "value": "Basic"
+        }
+    }
+}

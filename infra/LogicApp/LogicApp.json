@@ -1,0 +1,52 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workflowName": {
+            "type": "string"
+        },
+        "workflowLocation": {
+            "type": "string"
+        },
+        "workflowSchema": {
+            "type": "string"
+        },
+        "logicAppState": {
+            "type": "string",
+            "defaultValue": "Enabled"
+        },
+        "definition": {
+            "type": "string",
+            "defaultValue": "[concat('{\"contentVersion\":\"1.0.0.0\",\"parameters\":{},\"actions\":{},\"triggers\":{},\"outputs\":{},\"$schema\":\"', parameters('workflowSchema'), '\"}')]"
+        },
+        "parameters": {
+            "type": "object",
+            "defaultValue": {}
+        },
+        "tags": {
+            "type": "object",
+            "defaultValue": {}
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2016-10-01",
+            "name": "[parameters('workflowName')]",
+            "type": "Microsoft.Logic/workflows",
+            "location": "[parameters('workflowLocation')]",
+            "tags": "[parameters('tags')]",
+            "properties": {
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "triggers": {},
+                    "actions": {},
+                    "outputs": {}
+                },
+                "parameters": "[parameters('parameters')]",
+                "state": "[parameters('logicAppState')]"
+            }
+        }
+    ]
+}

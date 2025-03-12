@@ -1,0 +1,50 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "ServerName": {
+            "defaultValue": "neutest",
+            "type": "String"
+        },
+        "Location": {
+           "defaultvalue": "east us 2",
+           "type": "String"
+        },
+        "Administrators": {
+            "type": "array"
+        },
+        "Tags": {
+            "type": "object",
+            "defaultValue": {}
+        },
+        "SkuName": {
+           "defaultvalue": "S0",
+           "type": "String"
+        },
+        "SkuTier": {
+           "defaultvalue": "Standard",
+           "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.AnalysisServices/servers",
+            "apiVersion": "2017-08-01",
+            "name": "[parameters('ServerName')]",
+            "location": "[parameters('Location')]",
+            "tags": "[parameters('Tags')]",
+            "sku": {
+                "name": "[parameters('SkuName')]",
+                "tier": "[parameters('SkuTier')]",
+                "capacity": 1
+            },
+            "properties": {
+                "asAdministrators": {
+                    "members": "[parameters('Administrators')]"
+                },
+                "querypoolConnectionMode": "All"
+            }
+        }
+    ]
+}
