@@ -1,0 +1,63 @@
+parameters:
+- name: 'PoolImage'
+  default: 'windows-2019'
+  type: string
+- name: 'BuildJobDisplayName'
+  default: 'Build Job'
+  type: string
+
+
+
+
+jobs:
+- job: Build
+  displayName: '${{parameters.BuildJobDisplayName}}'
+  pool:
+    vmImage: ${{parameters.PoolImage}}
+
+  steps:
+  - checkout: self
+
+  - task: PowerShell@2
+    displayName: 'Replace parameters in runbooks scripts'
+    inputs:
+      filePath: '$(build.SourcesDirectory)/infra/AzureAutomationAccount/ReplaceParametersInRunBookScripts.ps1'
+      arguments: '$(build.SourcesDirectory) $(ResourceGroupName) $(AnalysisServicesName) $(SynapseWorkspaceName) $(SqlPoolName)'
+
+  - task: CopyFiles@2
+    displayName: 'Copy Script Files'
+    inputs:
+      SourceFolder: '$(build.SourcesDirectory)/infra'
+      Contents: '**'
+      TargetFolder: '$(build.artifactstagingdirectory)/ARM'
+
+  - task: MSBuild@1
+    displayName: 'Build Solution for SQL Meta Data'        
+    inputs:
+        solution: '**/*.sln'
+        project: '**/*.sln'
+        msbuildLocationMethod: 'version'
+        msbuildVersion: 'latest'
+        msbuildArchitecture: 'x86'
+        msbuildLocation: ''
+        platform: ''
+        configuration: ''
+        msbuildArguments: ''
+        clean: false
+        maximumCpuCount: false
+        restoreNugetPackages: false            
+        logProjectEvents: false
+        createLogFile: false
+        logFileVerbosity: 'normal'
+  
+  - task: CopyFiles@2
+    displayName: 'Copy SQL Meta Data Build Files'
+    inputs:
+      SourceFolder: '$(System.DefaultWorkingDirectory)/SQLMetaData/SQLMetaData/bin/'
+      Contents: '**'
+      TargetFolder: '$(build.artifactstagingdirectory)/SQLMetaData'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact'
+    inputs:
+      PathtoPublish: '$(build.artifactstagingdirectory)'
