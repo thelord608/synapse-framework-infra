@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>Framework</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{4782c0d9-891c-48cd-907c-de597ad5eef6}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureV12DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>Framework</RootNamespace>
+    <AssemblyName>Framework</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <Recovery>SIMPLE</Recovery>
+    <GenerateCreateScript>True</GenerateCreateScript>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\Schemas" />
+    <Folder Include="Data" />
+    <Folder Include="Scripts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Stored Procedures\uspLogEventCopyActivityStart.sql" />
+    <Build Include="dbo\Stored Procedures\uspGetCopyActivityExecutionList.sql" />
+    <Build Include="dbo\Stored Procedures\uspGetCopyActivitySinkFileToADLS.sql" />
+    <Build Include="dbo\Stored Procedures\uspLogEventCopyActivityEnd.sql" />
+    <Build Include="dbo\Stored Procedures\uspLogEventCopyActivityError.sql" />
+    <Build Include="dbo\Stored Procedures\uspGetCopyActivitySinkSQLToADLS.sql" />
+    <Build Include="dbo\Stored Procedures\uspResetCopyActivityExecutionList.sql" />
+    <Build Include="dbo\Stored Procedures\uspGetNotebookExecutionList.sql" />
+    <Build Include="dbo\Stored Procedures\uspLogEventNotebookError.sql" />
+    <Build Include="dbo\Stored Procedures\uspLogEventNotebookStart.sql" />
+    <Build Include="dbo\Stored Procedures\uspLogEventNotebookEnd.sql" />
+    <Build Include="dbo\Stored Procedures\uspInsertDataFactory.sql" />
+    <Build Include="dbo\Stored Procedures\uspInsertNotebookExecutionGroup.sql" />
+    <Build Include="dbo\Stored Procedures\uspInsertNotebook.sql" />
+    <Build Include="dbo\Stored Procedures\uspInsertNotebookParameters.sql" />
+    <Build Include="dbo\Stored Procedures\uspCopyActivityDataADLS.sql" />
+    <Build Include="dbo\Stored Procedures\uspCopyActivityDataSQLScript.sql" />
+    <Build Include="dbo\Stored Procedures\uspCopyActivityExecutionPlan.sql" />
+    <Build Include="dbo\Stored Procedures\uspCopyActivitySink.sql" />
+    <Build Include="dbo\Stored Procedures\uspGetSystemParameter.sql" />
+    <Build Include="dbo\Stored Procedures\uspGetSystemParameterADF.sql" />
+    <Build Include="dbo\Stored Procedures\uspInsertSystem.sql" />
+	<Build Include="dbo\Tables\ADLSPaths.sql" />
+	<Build Include="dbo\Tables\temp_ADLSPaths.sql" />
+    <Build Include="dbo\Tables\Container.sql" />
+    <Build Include="dbo\Tables\ContainerActivityType.sql" />
+    <Build Include="dbo\Tables\ContainerExecutionGroup.sql" />
+    <Build Include="dbo\Tables\ContainerExecutionPlan.sql" />
+    <Build Include="dbo\Tables\ContainerParameter.sql" />
+    <Build Include="dbo\Tables\ContainerType.sql" />
+    <Build Include="dbo\Tables\CopyActivityDataADLS.sql" />
+    <Build Include="dbo\Tables\CopyActivityDataFileSystem.sql" />
+    <Build Include="dbo\Tables\CopyActivityDataSQLScript.sql" />
+    <Build Include="dbo\Tables\CopyActivityDataType.sql" />
+    <Build Include="dbo\Tables\CopyActivityErrorLog.sql" />
+    <Build Include="dbo\Tables\CopyActivityExecutionGroup.sql" />
+    <Build Include="dbo\Tables\CopyActivityExecutionLog.sql" />
+    <Build Include="dbo\Tables\CopyActivityExecutionPlan.sql" />
+    <Build Include="dbo\Tables\CopyActivityParameter.sql" />
+    <Build Include="dbo\Tables\CopyActivitySink.sql" />
+    <Build Include="dbo\Tables\DataFactory.sql" />
+    <Build Include="dbo\Tables\Notebook.sql" />
+    <Build Include="dbo\Tables\NotebookErrorLog.sql" />
+    <Build Include="dbo\Tables\NotebookExecutionGroup.sql" />
+    <Build Include="dbo\Tables\NotebookExecutionLog.sql" />
+    <Build Include="dbo\Tables\NotebookExecutionPlan.sql" />
+    <Build Include="dbo\Tables\NotebookParameter.sql" />
+    <Build Include="dbo\Tables\OperationalLogging.sql" />    
+    <Build Include="dbo\Tables\CopyActivityDataADLS_Staging.sql" />
+    <Build Include="dbo\Tables\CopyActivityDataSQLScript_Staging.sql" />
+    <Build Include="dbo\Tables\CopyActivityExecutionPlan_Staging.sql" />
+    <Build Include="dbo\Tables\CopyActivitySink_Staging.sql" />
+    <Build Include="dbo\Tables\CopyActivityExcelSpreadSheets.sql" />
+    <Build Include="dbo\Tables\CopyActivityParameter_Staging.sql" />
+    <Build Include="dbo\Stored Procedures\uspCopyActivityParameter.sql" />
+    <Build Include="dbo\Tables\CopyActivityDataFileSystem_Staging.sql" />
+    <Build Include="dbo\Stored Procedures\uspCopyActivityDataFileSystem.sql" />
+    <Build Include="dbo\Tables\NotebooksExcelSpreadSheets.sql" />
+    <Build Include="dbo\Stored Procedures\uspGetNotebookMetaDataExecutionList.sql" />
+    <Build Include="dbo\Tables\Ingest_Staging.sql" />
+    <Build Include="dbo\Tables\Enrich_Staging.sql" />
+    <Build Include="dbo\Tables\Sanction_Staging.sql" />
+    <Build Include="dbo\Stored Procedures\uspInsertNotebookExecutionPlan.sql" />
+    <Build Include="dbo\Stored Procedures\uspInsertContainerExecutionGroup.sql" />
+    <Build Include="dbo\Stored Procedures\uspInsertContainer.sql" />
+    <Build Include="dbo\Stored Procedures\uspInsertContainerExecutionPlan_ForNotebookContainer.sql" />
+    <Build Include="dbo\Stored Procedures\uspInsertContainerActivityType.sql" />
+    <Build Include="dbo\Stored Procedures\uspPopulateNotebookMetadata.sql" />
+    <Build Include="dbo\Tables\Convert_Staging.sql" />
+    <Build Include="dbo\Tables\DataSource.sql" />
+    <Build Include="dbo\Tables\DataSourceType.sql" />
+    <Build Include="dbo\Tables\System.sql" />
+    <Build Include="dbo\Tables\SystemActivityType.sql" />
+    <Build Include="dbo\Tables\SystemParameter.sql" />
+	<Build Include="dbo\Stored Procedures\uspPopulateADLSMetadata.sql" />
+	<Build Include="dbo\Stored Procedures\uspPopulateADLSPaths.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Container.data.sql" />
+    <None Include="Data\ContainerActivityType.data.sql" />    
+    <None Include="Data\ContainerParameter.data.sql" />
+    <None Include="Data\ContainerType.data.sql" />    
+    <None Include="Data\CopyActivityDataType.data.sql" />
+    <None Include="Data\CopyActivityExecutionGroup.data.sql" />
+    <None Include="Data\CopyActivitySpreadSheetData.data.sql" />    
+    <None Include="Data\DataSource.data.sql" />
+    <None Include="Data\DataSourceType.data.sql" />    
+    <None Include="Data\NotebooksExcelSpreadSheets.data.sql" />
+    <None Include="Data\System.data.sql" />
+    <None Include="Data\SystemActivityType.data.sql" />
+    <None Include="Data\SystemParameter.data.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\Script.PostDeployment.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PostDeploy>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>
